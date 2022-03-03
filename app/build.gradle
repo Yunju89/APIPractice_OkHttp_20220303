@@ -6,6 +6,10 @@ plugins {
 android {
     compileSdk 31
 
+    buildFeatures {
+        dataBinding = true
+    }
+
     defaultConfig {
         applicationId "org.techtown.apipractice_okhttp_20220303"
         minSdk 24
