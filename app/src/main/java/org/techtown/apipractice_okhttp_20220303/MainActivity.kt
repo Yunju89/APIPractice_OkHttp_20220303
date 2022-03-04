@@ -28,8 +28,7 @@ class MainActivity : AppCompatActivity() {
             val inputPw = binding.edtPassword.text.toString()
 //            API 서버에 아이디/비번을 보내서 실제로 회원인지 검사 => 로그인시도
 
-
-
+            ServerUtil.postRequestLogin(inputId, inputPw)
 
         }
 
