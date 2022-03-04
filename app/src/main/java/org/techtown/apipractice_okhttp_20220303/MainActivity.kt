@@ -40,7 +40,7 @@ class MainActivity : BaseActivity() {
                     
                     if(code==200){
                         runOnUiThread {
-                            Toast.makeText(this@MainActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(mContext, "로그인 성공", Toast.LENGTH_SHORT).show()
                         }
                     }
                     else {
@@ -50,7 +50,7 @@ class MainActivity : BaseActivity() {
 //                        토스트 : UI 조작 => 백그라운드에서 UI를 건드리면, 위험한 동작으로 간주, 앱을 강제종료.
                         runOnUiThread{
 //                            토스트를 띄우는 코드만, UI 전담 쓰레드에서 실행하도록.
-                            Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                         }
 
 
