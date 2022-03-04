@@ -1,5 +1,7 @@
 package org.techtown.apipractice_okhttp_20220303.utils
 
+import okhttp3.FormBody
+
 class ServerUtil {
 
 //    서버에 Request 를 날리는 역할.
@@ -21,8 +23,13 @@ class ServerUtil {
 //            제작1) 어느 주소(url) 로 접근할건지? => 서버 주소 + 기능 주소
             val urlString = "${BASE_URL}/user"
 
-        }
+//            제작2) 파라미터 담아주기 => 어떤 이름표 / 어느 공간에
+            val formData = FormBody.Builder()
+                .add("email", id)               // 서버에서 원하는 이름표, 담을데이터
+                .add("password", pw)
+                .build()
 
+        }
 
     }
 
