@@ -68,22 +68,30 @@ class ServerUtil {
 //                    JASONObject 객체로 응답 본문 String 변환해주면, 한글이 복구 됨.
 //                    => UI 에서도 JASONObject 이용해서 데이터 추출 / 실제 활용
 
-                    val jasonObj = JSONObject( bodyString )
+                    val jsonObj = JSONObject( bodyString )
 
-                    Log.d("서버테스트", jasonObj.toString())
+                    Log.d("서버테스트", jsonObj.toString())
 
 //                    연습 : 로그인 성공 / 실패 에 따른 로그 출력
 //                    "code" 이름표의 Int 추출, 그 값을 if로 물어보자.
 
-                     val code = jasonObj.getInt("code")
+                     val code = jsonObj.getInt("code")
 
                     if(code == 200){
                         Log.d("로그인시도","성공")
+
+                        val dataObj = jsonObj.getJSONObject("data")
+                        val userObj = dataObj.getJSONObject("user")
+
+                        val nickname = userObj.getString("nick_name")
+
+                        Log.d("로그인 한 사람의 닉네임", nickname)
+
                     }
                     else {
                         Log.d("로그인시도","실패")
 
-                        val message = jasonObj.getString("message")
+                        val message = jsonObj.getString("message")
 
                         Log.d("실패사유", message)
                     }
