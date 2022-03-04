@@ -12,7 +12,6 @@ class ServerUtil {
 
     interface  JsonResponseHandler {                    // 인터페이스는 전체가 abstract 라서 abstract 함수 안써도 됨
         fun onResponse( jsonObj : JSONObject )          //jsonObj 받아옴
-
     }
 
 //    서버에 Request 를 날리는 역할.
