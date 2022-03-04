@@ -1,5 +1,6 @@
 package org.techtown.apipractice_okhttp_20220303
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -22,6 +23,15 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setupEvents(){
+
+        binding.btnSignUp.setOnClickListener {
+
+//            단순 화면 이동.
+
+            val myIntent = Intent(mContext,SignUpActivity::class.java)
+            startActivity(myIntent)
+
+        }
 
         binding.bntLogin.setOnClickListener {
 
@@ -52,17 +62,10 @@ class MainActivity : BaseActivity() {
 //                            토스트를 띄우는 코드만, UI 전담 쓰레드에서 실행하도록.
                             Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                         }
-
-
                     }
-
                 }
-
             })
-
         }
-
-
     }
 
     override fun setValues(){
