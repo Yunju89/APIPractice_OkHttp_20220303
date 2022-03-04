@@ -8,7 +8,7 @@ import org.json.JSONObject
 import org.techtown.apipractice_okhttp_20220303.databinding.ActivityMainBinding
 import org.techtown.apipractice_okhttp_20220303.utils.ServerUtil
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     lateinit var binding : ActivityMainBinding              // xml 에 <layout> 그리고 자동완성
 
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setValues()
     }
 
-    fun setupEvents(){
+    override fun setupEvents(){
 
         binding.bntLogin.setOnClickListener {
 
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setValues(){
+    override fun setValues(){
 
     }
 }
