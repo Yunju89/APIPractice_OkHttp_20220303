@@ -11,16 +11,15 @@
     tools:context=".SignUpActivity">
 
     <TextView
-        android:id="@+id/edtEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="아이디"/>
 
     <EditText
+        android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="이메일양식"
-        android:inputType="textEmailAddress"/>
+        android:hint="이메일양식"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,8 +31,7 @@
         android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="8글자 이상"
-        android:inputType="textPassword"/>
+        android:hint="8글자 이상"/>
 
     <TextView
         android:layout_width="wrap_content"

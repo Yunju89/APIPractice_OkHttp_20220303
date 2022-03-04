@@ -110,6 +110,7 @@ class ServerUtil {
                 .build()
 
             val client = OkHttpClient()
+
             client.newCall(request).enqueue( object : Callback{
                 override fun onFailure(call: Call, e: IOException) {
 
