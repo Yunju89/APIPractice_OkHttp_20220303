@@ -11,12 +11,8 @@ abstract class BaseActivity : AppCompatActivity() {
 //     => 추상 메쏘드로 물려줘서, 반드시 오버라이딩 하게 만들자.
 
 
-    abstract fun setupEvents(){
+    abstract fun setupEvents()
 
-    }
-
-    abstract fun setValues(){
-
-    }
+    abstract fun setValues()
 
 }
