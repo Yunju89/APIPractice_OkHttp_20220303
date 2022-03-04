@@ -7,6 +7,14 @@ import java.io.IOException
 
 class ServerUtil {
 
+//    서버 유틸로 돌아온 응답을 => 액티비티에서 처리하도록 일처리 넘기기.
+//    나에게 생긴 일 > 다른 클래스에게 처리 요청 : interFace 활용
+
+    interface  JsonResponseHandler {                    // 인터페이스는 전체가 abstract 라서 abstract 함수 안써도 됨
+        fun onResponse( jsonObj : JSONObject )          //jsonObj 받아옴
+
+    }
+
 //    서버에 Request 를 날리는 역할.
 //    함수를 만들려고 하는데, 어떤 객체가 실행해도 결과가 잘 나오면 그만인 함수.
 //    코틀린에서 static 에 해당하는 개념? companion object {  } 에 만들자.
@@ -18,8 +26,10 @@ class ServerUtil {
         private  val BASE_URL = "http://54.180.52.26"
 
 //        로그인 기능 호출 함수
+//        handler : 이 함수를 쓰는 화면에서, JSON 분석을 어떻게 / UI 에서 어떻게 활용할 지 방안.(인터페이스)
+//          -처리 방안을 임시로 비워두려면, null 대입 허용 (handler 변수에 ? 직접 붙임)
 
-        fun postRequestLogin( id : String, pw : String ){
+        fun postRequestLogin( id : String, pw : String, handler : JsonResponseHandler? ){
 
 //            Request 제작 -> 실제 호출 -> 서버의 응답을, 화면에 전달
 
@@ -69,32 +79,15 @@ class ServerUtil {
 //                    => UI 에서도 JASONObject 이용해서 데이터 추출 / 실제 활용
 
                     val jsonObj = JSONObject( bodyString )
+                    Log.d("서버응답", jsonObj.toString())
 
-                    Log.d("서버테스트", jsonObj.toString())
+//                    실제 : handler 변수에, jsonObj 가지고 화면에서 어떻게 처리할지 계획이 들어와있다.
+//                    (계획이 되어 있을때만, 널이 아닐때만)해당 계획을 실행하자.
 
-//                    연습 : 로그인 성공 / 실패 에 따른 로그 출력
-//                    "code" 이름표의 Int 추출, 그 값을 if로 물어보자.
+                    handler?.onResponse(jsonObj)
 
-                     val code = jsonObj.getInt("code")
 
-                    if(code == 200){
-                        Log.d("로그인시도","성공")
 
-                        val dataObj = jsonObj.getJSONObject("data")
-                        val userObj = dataObj.getJSONObject("user")
-
-                        val nickname = userObj.getString("nick_name")
-
-                        Log.d("로그인 한 사람의 닉네임", nickname)
-
-                    }
-                    else {
-                        Log.d("로그인시도","실패")
-
-                        val message = jsonObj.getString("message")
-
-                        Log.d("실패사유", message)
-                    }
                 }
 
             })
