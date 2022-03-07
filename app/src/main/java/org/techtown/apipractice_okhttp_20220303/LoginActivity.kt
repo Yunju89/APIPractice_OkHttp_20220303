@@ -1,5 +1,6 @@
 package org.techtown.apipractice_okhttp_20220303
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -28,8 +29,12 @@ class LoginActivity : BaseActivity() {
 //        체크박스의 체크 여부가 변경되면 > ContextUtil 이용, 체크 값 저장
         binding.autoLoginChekBox.setOnCheckedChangeListener { buttonView, isChecked ->
 
-            Log.d("체크값변경", "${isChecked}로 변경됨됨")
+            Log.d("체크값변경", "${isChecked}로 변경됨")
 
+//            연습문제 . ContextUtil 이용해서 , true 변경되면 자동 로그인값도 true 로 저장.
+//            false 로 되면, 자동로그인 값도 false 로 저장.
+
+            ContextUtil.setAutoLogin(mContext,isChecked)
        }
 
         binding.btnSignUp.setOnClickListener {
