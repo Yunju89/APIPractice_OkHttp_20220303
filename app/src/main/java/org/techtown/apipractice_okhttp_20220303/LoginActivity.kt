@@ -58,7 +58,10 @@ class LoginActivity : BaseActivity() {
                                 .show()
                         }
 
-//                        메인화면으로 진입
+//                        메인화면으로 진입 => 클래스의 객체화 (UI 동작 X)
+
+                        val myIntent = Intent(mContext,MainActivity::class.java)
+                        startActivity(myIntent)
 
 
                     } else {
