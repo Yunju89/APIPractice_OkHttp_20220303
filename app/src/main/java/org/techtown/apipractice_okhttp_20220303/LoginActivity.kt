@@ -2,6 +2,7 @@ package org.techtown.apipractice_okhttp_20220303
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import org.json.JSONObject
@@ -23,6 +24,13 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+        
+//        체크박스의 체크 여부가 변경되면 > ContextUtil 이용, 체크 값 저장
+        binding.autoLoginChekBox.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            Log.d("체크값변경", "${isChecked}로 변경됨됨")
+
+       }
 
         binding.btnSignUp.setOnClickListener {
 
