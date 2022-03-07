@@ -13,6 +13,8 @@ class ContextUtil {
 
         private val TOKEN = "TOKEN"
 
+        private val AUTO_LOGIN = "AUTO_LOGIN"
+
 //        데이터 저장 함수(setter) / 조회 함수(getter) 별개로 작성.
 //        TOKEN 항목에 저장 => token 항목 조회? 데이터 인식 X, 대소문자 동일해야 함.
 //        오타를 줄이고 코딩 편하게 하는 조치.
@@ -32,6 +34,15 @@ class ContextUtil {
         }
 
 
+        fun setAutoLogin(context: Context, isAuto : Boolean){
+            val prefName = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+            prefName.edit().putBoolean(AUTO_LOGIN, isAuto).apply()
+
+            fun getAutoLogin(context: Context) : Boolean {
+                val prefName = context.getSharedPreferences(Companion.prefName, Context.MODE_PRIVATE)
+                return prefName.getBoolean(AUTO_LOGIN, true)
+            }
+        }
 
 
     }
