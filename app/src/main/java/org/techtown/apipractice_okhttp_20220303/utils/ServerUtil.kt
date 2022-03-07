@@ -165,11 +165,7 @@ class ServerUtil {
                     handler?.onResponse(jsonObj)                // 핸들러가 할일이 있는지? 있다면 onResponse 실행 요청
 
                 }
-
             })
-
-
-
         }
 
 //       연습 : 내 정보 불러오기 (/user_info - GET)
@@ -179,11 +175,33 @@ class ServerUtil {
 
         fun getRequestMyInfo( context: Context, handler: JsonResponseHandler? ) {
 
+            val urlBuilder = "${BASE_URL}/user_info".toHttpUrlOrNull()!!.newBuilder()
+                .build()  // 쿼리 파라미터를 담을게 없다. 바로 build 로 마무리.
 
+            val urlString = urlBuilder.toString()
 
+            val request = Request.Builder()
+                .url(urlString)
+                .get()
+                .header("X-Http-Token", ContextUtil.getToken(context))  // ContextUtil 통해 저장된 토큰 받아서 첨부.
+                .build()
 
+            val client = OkHttpClient()
+
+            client.newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+
+                    val jsonObj = JSONObject(response.body!!.string())
+                    Log.d("서버응답", jsonObj.toString())
+
+                    handler?.onResponse(jsonObj)
+                }
+            })
         }
-
 
     }
 

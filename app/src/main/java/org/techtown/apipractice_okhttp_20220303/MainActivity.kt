@@ -27,7 +27,7 @@ class MainActivity : BaseActivity() {
 
 //        화면의 텍스트뷰에 닉네임을 보여주기 위한 작업
 
-        ServerUtil.
+
 
     }
 

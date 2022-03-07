@@ -34,7 +34,7 @@ class LoginActivity : BaseActivity() {
 //            연습문제 . ContextUtil 이용해서 , true 변경되면 자동 로그인값도 true 로 저장.
 //            false 로 되면, 자동로그인 값도 false 로 저장.
 
-            ContextUtil.setAutoLogin(mContext,isChecked)
+            ContextUtil.setAutoLogin(mContext,isChecked)            // setAutoLogin 값 저장
        }
 
         binding.btnSignUp.setOnClickListener {
