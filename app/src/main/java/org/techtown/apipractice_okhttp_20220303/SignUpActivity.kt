@@ -34,6 +34,7 @@ class SignUpActivity : BaseActivity() {
                 inputPw,
                 inputNickname,
                 object : ServerUtil.JsonResponseHandler{
+
                     override fun onResponse(jsonObj: JSONObject) {
 
 //                        회원가입 성공 / 실패 분기
@@ -41,6 +42,7 @@ class SignUpActivity : BaseActivity() {
                         if(code==200){
 
 //                            가입한 사람의 닉네임 추출 > ~~님 가입을 축하합니다! 토스트
+
 //                            회원가입화면 종료 > 로그인화면 복귀
                             val dataObj = jsonObj.getJSONObject("data")
                             val userObj = dataObj.getJSONObject("user")

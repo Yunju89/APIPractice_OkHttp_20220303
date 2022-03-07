@@ -1,34 +1,33 @@
 package org.techtown.apipractice_okhttp_20220303
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import org.json.JSONObject
-import org.techtown.apipractice_okhttp_20220303.databinding.ActivityMainBinding
+import org.techtown.apipractice_okhttp_20220303.databinding.ActivityLoginBinding
 import org.techtown.apipractice_okhttp_20220303.utils.ServerUtil
 
-class MainActivity : BaseActivity() {
+class LoginActivity : BaseActivity() {
 
-    lateinit var binding : ActivityMainBinding              // xml 에 <layout> 그리고 자동완성
+    lateinit var binding: ActivityLoginBinding              // xml 에 <layout> 그리고 자동완성
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
 
         setupEvents()
         setValues()
     }
 
-    override fun setupEvents(){
+    override fun setupEvents() {
 
         binding.btnSignUp.setOnClickListener {
 
 //            단순 화면 이동.
 
-            val myIntent = Intent(mContext,SignUpActivity::class.java)
+            val myIntent = Intent(mContext, SignUpActivity::class.java)
             startActivity(myIntent)
 
         }
@@ -40,25 +39,30 @@ class MainActivity : BaseActivity() {
             val inputPw = binding.edtPassword.text.toString()
 //            API 서버에 아이디/비번을 보내서 실제로 회원인지 검사 => 로그인시도
 
-            ServerUtil.postRequestLogin(inputId, inputPw, object : ServerUtil.JsonResponseHandler{
+            ServerUtil.postRequestLogin(inputId, inputPw, object : ServerUtil.JsonResponseHandler {
                 override fun onResponse(jsonObj: JSONObject) {
 
 //                    화면의 입장에서, 로그인 결과를 받아서 처리 할 코드.
 //                    서버에 다녀오고 실행 : 라이브러리가 자동으로 백그라운드에서 돌도록 만들어 둔 코드.
-                    
+
                     val code = jsonObj.getInt("code")
-                    
-                    if(code==200){
+
+                    if (code == 200) {
+
+                        val dataObj = jsonObj.getJSONObject("data")
+                        val userOvj = dataObj.getJSONObject("user")
+                        val nickname = userOvj.getString("nick_name")
+
                         runOnUiThread {
-                            Toast.makeText(mContext, "로그인 성공", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(mContext, "${nickname}님 환영합니다.", Toast.LENGTH_SHORT)
+                                .show()
                         }
-                    }
-                    else {
+                    } else {
 
                         val message = jsonObj.getString("message")
 
 //                        토스트 : UI 조작 => 백그라운드에서 UI를 건드리면, 위험한 동작으로 간주, 앱을 강제종료.
-                        runOnUiThread{
+                        runOnUiThread {
 //                            토스트를 띄우는 코드만, UI 전담 쓰레드에서 실행하도록.
                             Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                         }
@@ -68,7 +72,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    override fun setValues(){
+    override fun setValues() {
 
     }
 }

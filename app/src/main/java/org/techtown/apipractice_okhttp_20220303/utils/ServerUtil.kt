@@ -28,6 +28,7 @@ class ServerUtil {
 //        로그인 기능 호출 함수
 //        handler : 이 함수를 쓰는 화면에서, JSON 분석을 어떻게 / UI 에서 어떻게 활용할 지 방안.(인터페이스)
 //          -처리 방안을 임시로 비워두려면, null 대입 허용 (handler 변수에 ? 직접 붙임)
+//          -서버 통신 응답이 늦을 수 있기 때문에, 사용자가 끌 수도 있고, 액티비티가 종료될 수 있기때문에 null point Exception 막기 위해서
 
         fun postRequestLogin( id : String, pw : String, handler : JsonResponseHandler? ){
 
@@ -47,6 +48,8 @@ class ServerUtil {
                 .url(urlString)
                 .post(formData)
                 .build()
+
+            Log.d("서버","${request.url}")
 
 //            종합한 Request 도 실제 호출을 해 줘야 API 호출이 실행 됨. (startActivity 같은 동작 필요)
 //            실제 호출 : 앱이 클라이언트로써 동작 > OkHttpClient 클래스
@@ -83,10 +86,7 @@ class ServerUtil {
 
 //                    실제 : handler 변수에, jsonObj 가지고 화면에서 어떻게 처리할지 계획이 들어와있다.
 //                    (계획이 되어 있을때만, 널이 아닐때만)해당 계획을 실행하자.
-
                     handler?.onResponse(jsonObj)
-
-
 
                 }
 
