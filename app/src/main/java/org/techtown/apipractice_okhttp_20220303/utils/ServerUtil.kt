@@ -1,8 +1,8 @@
 package org.techtown.apipractice_okhttp_20220303.utils
 
-import android.provider.ContactsContract
 import android.util.Log
 import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.json.JSONObject
 import java.io.IOException
 
@@ -11,8 +11,8 @@ class ServerUtil {
 //    서버 유틸로 돌아온 응답을 => 액티비티에서 처리하도록 일처리 넘기기.
 //    나에게 생긴 일 > 다른 클래스에게 처리 요청 : interFace 활용
 
-    interface  JsonResponseHandler {                    // 인터페이스는 전체가 abstract 라서 abstract 함수 안써도 됨
-        fun onResponse( jsonObj : JSONObject )          //jsonObj 받아옴
+    interface JsonResponseHandler {                    // 인터페이스는 전체가 abstract 라서 abstract 함수 안써도 됨
+        fun onResponse(jsonObj: JSONObject)          //jsonObj 받아옴
     }
 
 //    서버에 Request 를 날리는 역할.
@@ -22,15 +22,15 @@ class ServerUtil {
 
     companion object {
 
-//        서버에 컴퓨터 주소만 변수로 저장 (관리 일원화) => 외부 노출 X
-        private  val BASE_URL = "http://54.180.52.26"
+        //        서버에 컴퓨터 주소만 변수로 저장 (관리 일원화) => 외부 노출 X
+        private val BASE_URL = "http://54.180.52.26"
 
 //        로그인 기능 호출 함수
 //        handler : 이 함수를 쓰는 화면에서, JSON 분석을 어떻게 / UI 에서 어떻게 활용할 지 방안.(인터페이스)
 //          -처리 방안을 임시로 비워두려면, null 대입 허용 (handler 변수에 ? 직접 붙임)
 //          -서버 통신 응답이 늦을 수 있기 때문에, 사용자가 끌 수도 있고, 액티비티가 종료될 수 있기때문에 null point Exception 막기 위해서
 
-        fun postRequestLogin( id : String, pw : String, handler : JsonResponseHandler? ){
+        fun postRequestLogin(id: String, pw: String, handler: JsonResponseHandler?) {
 
 //            Request 제작 -> 실제 호출 -> 서버의 응답을, 화면에 전달
 
@@ -49,7 +49,7 @@ class ServerUtil {
                 .post(formData)
                 .build()
 
-            Log.d("서버","${request.url}")
+            Log.d("서버", "${request.url}")
 
 //            종합한 Request 도 실제 호출을 해 줘야 API 호출이 실행 됨. (startActivity 같은 동작 필요)
 //            실제 호출 : 앱이 클라이언트로써 동작 > OkHttpClient 클래스
@@ -60,7 +60,7 @@ class ServerUtil {
 //            => 서버에 다녀와서 할 일을 등록 : enqueue (Callback)
 
 //            새로호출(request).enqueue(다녀와서할일)(인터페이스로 표현, 인터페이스 종류 : Callback)
-            client.newCall(request).enqueue( object : Callback{
+            client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
 
 //                    실패 : 서버 연결 자체를 실패 한 상황. 응답이 오지 않음.
@@ -75,13 +75,14 @@ class ServerUtil {
 
 //                    응답 : Response 변수 > 응답의 본문 (body) 만 보자.
 
-                    val bodyString = response.body!!.string()        // OkHttp toString() 아님! string() 기능은 1회용, 변수에 담아두고 이용
+                    val bodyString =
+                        response.body!!.string()        // OkHttp toString() 아님! string() 기능은 1회용, 변수에 담아두고 이용
 
 //                    응답의 본문을 String 으로 변환하면, JSON Encoding 적용 상태. (한글 깨짐)
 //                    JASONObject 객체로 응답 본문 String 변환해주면, 한글이 복구 됨.
 //                    => UI 에서도 JASONObject 이용해서 데이터 추출 / 실제 활용
 
-                    val jsonObj = JSONObject( bodyString )
+                    val jsonObj = JSONObject(bodyString)
                     Log.d("서버응답", jsonObj.toString())
 
 //                    실제 : handler 변수에, jsonObj 가지고 화면에서 어떻게 처리할지 계획이 들어와있다.
@@ -94,7 +95,8 @@ class ServerUtil {
 
         }
 
-        fun putRequestSignUp( email : String, pw: String, nickname : String, handler: JsonResponseHandler?){
+        fun putRequestSignUp(email: String, pw: String, nickname: String, handler: JsonResponseHandler?
+        ) {
 
             val urlString = "${BASE_URL}/user"
 
@@ -111,7 +113,7 @@ class ServerUtil {
 
             val client = OkHttpClient()
 
-            client.newCall(request).enqueue( object : Callback{
+            client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
 
                 }
@@ -124,7 +126,25 @@ class ServerUtil {
 
                 }
 
-            } )
+            })
+
+        }
+
+        //        이메일 or 닉네임 중복 검사 함수
+        fun getRequestDuplicatedCheck(
+            type: String, inputValue: String, handler: JsonResponseHandler?
+        ) {
+//            1) 어느 주소로 가야하는가? + 어떤 파라미터를 첨부 하는가? 주소에 같이 포함
+//             => 라이브러리의 도움 받자. httpUrl 클래스 (OkHttp 소속)
+
+            val urlBuilder = "${BASE_URL}/user_check".toHttpUrlOrNull()!!.newBuilder()
+                .addEncodedQueryParameter("type", type)
+                .addEncodedQueryParameter("value", inputValue)
+                .build()
+
+            val urlString = urlBuilder.toString()
+
+            Log.d("완성된 Url", urlString)
 
 
         }
