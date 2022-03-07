@@ -95,8 +95,7 @@ class ServerUtil {
 
         }
 
-        fun putRequestSignUp(email: String, pw: String, nickname: String, handler: JsonResponseHandler?
-        ) {
+        fun putRequestSignUp(email: String, pw: String, nickname: String, handler: JsonResponseHandler?) {
 
             val urlString = "${BASE_URL}/user"
 
@@ -144,7 +143,32 @@ class ServerUtil {
 
             val urlString = urlBuilder.toString()
 
-            Log.d("완성된 Url", urlString)
+//            2) 요청 정보 정리 > Request 생성.
+
+            val request = Request.Builder()
+                .url(urlString)
+                .get()              // rulBuilder 만들 때 정보가 이미 들어 감.
+                .build()
+
+//            3) Request 완성 > 서버에 호출, 응답 화면에 넘기자
+            val client = OkHttpClient()
+
+            client.newCall(request).enqueue( object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+
+                    val bodyString = response.body!!.string()
+                    val jsonObj = JSONObject (bodyString)         // JSONObject 로 만들어야 사용 가능, string 넣어 다른 클래스 만드는것 -> json 파싱
+                    Log.d("서버응답", jsonObj.toString())
+                    handler?.onResponse(jsonObj)                // 핸들러가 할일이 있는지? 있다면 onResponse 실행 요청
+
+                }
+
+            })
+
 
 
         }
