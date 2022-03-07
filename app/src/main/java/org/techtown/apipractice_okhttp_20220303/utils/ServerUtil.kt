@@ -130,8 +130,7 @@ class ServerUtil {
         }
 
         //        이메일 or 닉네임 중복 검사 함수
-        fun getRequestDuplicatedCheck(
-            type: String, inputValue: String, handler: JsonResponseHandler?) {
+        fun getRequestDuplicatedCheck(type: String, inputValue: String, handler: JsonResponseHandler?) {
 //            1) 어느 주소로 가야하는가? + 어떤 파라미터를 첨부 하는가? 주소에 같이 포함
 //             => 라이브러리의 도움 받자. httpUrl 클래스 (OkHttp 소속)
 

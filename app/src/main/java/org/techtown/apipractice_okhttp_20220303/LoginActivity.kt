@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import org.json.JSONObject
 import org.techtown.apipractice_okhttp_20220303.databinding.ActivityLoginBinding
+import org.techtown.apipractice_okhttp_20220303.utils.ContextUtil
 import org.techtown.apipractice_okhttp_20220303.utils.ServerUtil
 
 class LoginActivity : BaseActivity() {
@@ -60,6 +61,8 @@ class LoginActivity : BaseActivity() {
 
 //                        서버가 내려준 토큰값을 변수에 담아보자.
                         val token = dataObj.getString("token")
+
+                        ContextUtil.setToken(mContext, token)
 
 //                        변수에 담긴 토큰값(String) 을 SharedPreferences 에 담아두자.
 //                        로그인 성공시에는 담기만, 필요한 화면 / 클래스에서 꺼내서 사용.

@@ -13,6 +13,7 @@ import org.techtown.apipractice_okhttp_20220303.utils.ServerUtil
 class SignUpActivity : BaseActivity() {
 
     lateinit var binding : ActivitySignUpBinding
+    var isDupOk = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +36,7 @@ class SignUpActivity : BaseActivity() {
             binding.txtNicknameCheckResult.text = "중복 확인을 해주세요."
         }
 
+
         binding.btnNicknameCheck.setOnClickListener {
 
             val inputNickname = binding.edtNickname.text.toString()
@@ -47,9 +49,11 @@ class SignUpActivity : BaseActivity() {
                         when (code) {
                             200 -> {
                                 binding.txtNicknameCheckResult.text = "사용해도 좋은 닉네임입니다."
+                                isDupOk = true
                             }
                             else -> {
                                 binding.txtNicknameCheckResult.text = "다른 닉네임으로 다시 검사해주세요."
+                                isDupOk = false
                             }
                         }
                     }
@@ -79,9 +83,11 @@ class SignUpActivity : BaseActivity() {
                         when(code){
                             200 -> {
                                 binding.txtEmailCheckResult.text = "사용해도 좋은 이메일입니다."
+                                isDupOk = true
                             }
                             else -> {
                                 binding.txtEmailCheckResult.text = "다른 이메일로 다시 검사해주세요."
+                                isDupOk = false
                             }
                         }
                     }
@@ -93,6 +99,13 @@ class SignUpActivity : BaseActivity() {
 
 //            [도전과제]만약 이메일 / 닉네임 중복검사 통과하지 못한 상태라면,
 //            토스트로 "이메일 중복 검사를 통과해야 합니다." 등의 문구만 출력, 가입 진행 X
+            if(isDupOk == false){
+                runOnUiThread {
+                    Toast.makeText(this, "이메일, 닉네임 중복검사를 통과해야 합니다.", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+
 
 //            hint) 진행할 상황이 아니라면, return  처리하면 함수 종료.
 

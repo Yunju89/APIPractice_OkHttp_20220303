@@ -11,7 +11,7 @@ class ContextUtil {
 
 //        저장할 데이터의 항목명도 변수로 만들어 두자.
 
-        val TOKEN = "TOKEN"
+        private val TOKEN = "TOKEN"
 
 //        데이터 저장 함수(setter) / 조회 함수(getter) 별개로 작성.
 //        TOKEN 항목에 저장 => token 항목 조회? 데이터 인식 X, 대소문자 동일해야 함.
