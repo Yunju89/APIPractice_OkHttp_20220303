@@ -57,7 +57,24 @@ class ViewTopicDetailActivity : BaseActivity() {
 
 //            투표 현황 새로고침(응답)
 
+        }
 
+        binding.btnVote2.setOnClickListener {
+
+            ServerUtil.postRequestVote(mContext, mTopicData.sideList[1].id, object : ServerUtil.JsonResponseHandler{
+                override fun onResponse(jsonObj: JSONObject) {
+
+                    val message = jsonObj.getString("message")
+
+                    runOnUiThread {
+                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    getTopicDetailFromServer()
+
+                }
+
+            })
 
         }
 

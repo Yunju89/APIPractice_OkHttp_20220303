@@ -272,7 +272,7 @@ class ServerUtil {
 
 //            제작2) 파라미터 담아주기 => 어떤 이름표 / 어느 공간에
             val formData = FormBody.Builder()
-                .add("side_id", sideId.toString())               // 서버에서 원하는 이름표, 담을데이터
+                .add("side_id", sideId.toString())
                 .build()
 
 //            제작 3) 모든 Request 정보를 종합한 객체 생성. (어느 주소로 + 어느 메쏘드로(어떤 파라미터를) )
@@ -282,22 +282,30 @@ class ServerUtil {
                 .header("X-Http-Token", ContextUtil.getToken(context))
                 .build()
 
-            Log.d("서버", "postRequestVote${request.url}")
+            Log.d("서버", "${request.url}")
 
             val client = OkHttpClient()
-//            OkHttpClient 객체를 이용 > 서버에 로그인 기능 호출
 
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
-
                 }
 
                 override fun onResponse(call: Call, response: Response) {
 
+//                    응답 : Response 변수 > 응답의 본문 (body) 만 보자.
+
                     val bodyString =
-                        response.body!!.string()
+                        response.body!!.string()        // OkHttp toString() 아님! string() 기능은 1회용, 변수에 담아두고 이용
+
+//                    응답의 본문을 String 으로 변환하면, JSON Encoding 적용 상태. (한글 깨짐)
+//                    JASONObject 객체로 응답 본문 String 변환해주면, 한글이 복구 됨.
+//                    => UI 에서도 JASONObject 이용해서 데이터 추출 / 실제 활용
+
                     val jsonObj = JSONObject(bodyString)
                     Log.d("서버응답", jsonObj.toString())
+
+//                    실제 : handler 변수에, jsonObj 가지고 화면에서 어떻게 처리할지 계획이 들어와있다.
+//                    (계획이 되어 있을때만, 널이 아닐때만)해당 계획을 실행하자.
                     handler?.onResponse(jsonObj)
 
                 }
