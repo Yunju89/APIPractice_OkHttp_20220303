@@ -2,6 +2,7 @@ package org.techtown.apipractice_okhttp_20220303
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import org.json.JSONObject
@@ -21,7 +22,6 @@ class ViewTopicDetailActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_view_topic_detail)
 
         mTopicData = intent.getSerializableExtra("topic") as TopicData
-        Log.d("토픽데이터", mTopicData.id.toString())
 
         setupEvents()
         setValues()
@@ -40,6 +40,15 @@ class ViewTopicDetailActivity : BaseActivity() {
             ServerUtil.postRequestVote(mContext, mTopicData.sideList[0].id, object : ServerUtil.JsonResponseHandler{
                 override fun onResponse(jsonObj: JSONObject) {
 
+//                    토스트로 서버가 알려준 현재 상황 (신규투표 or 재투표 or 취소 등)
+                    val message = jsonObj.getString("message")
+
+                    runOnUiThread {
+                        Toast.makeText(mContext, message , Toast.LENGTH_SHORT).show()
+                    }
+
+//                    변경된 득표 현황을 다시 불러오자.
+                    getTopicDetailFromServer()
 
 
                 }

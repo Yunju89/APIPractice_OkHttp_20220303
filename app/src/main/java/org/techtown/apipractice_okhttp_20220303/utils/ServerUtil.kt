@@ -268,7 +268,7 @@ class ServerUtil {
 //            Request 제작 -> 실제 호출 -> 서버의 응답을, 화면에 전달
 
 //            제작1) 어느 주소(url) 로 접근할건지? => 서버 주소 + 기능 주소
-            val urlString = "${BASE_URL}topic_vote/"
+            val urlString = "${BASE_URL}/topic_vote"
 
 //            제작2) 파라미터 담아주기 => 어떤 이름표 / 어느 공간에
             val formData = FormBody.Builder()
@@ -279,13 +279,10 @@ class ServerUtil {
             val request = Request.Builder()
                 .url(urlString)
                 .post(formData)
-                .header("X-Http-Token",ContextUtil.getToken(context))
+                .header("X-Http-Token", ContextUtil.getToken(context))
                 .build()
 
-//            Log.d("서버", "${request.url}")
-
-//            종합한 Request 도 실제 호출을 해 줘야 API 호출이 실행 됨. (startActivity 같은 동작 필요)
-//            실제 호출 : 앱이 클라이언트로써 동작 > OkHttpClient 클래스
+            Log.d("서버", "postRequestVote${request.url}")
 
             val client = OkHttpClient()
 //            OkHttpClient 객체를 이용 > 서버에 로그인 기능 호출
@@ -299,10 +296,8 @@ class ServerUtil {
 
                     val bodyString =
                         response.body!!.string()
-
                     val jsonObj = JSONObject(bodyString)
                     Log.d("서버응답", jsonObj.toString())
-
                     handler?.onResponse(jsonObj)
 
                 }
