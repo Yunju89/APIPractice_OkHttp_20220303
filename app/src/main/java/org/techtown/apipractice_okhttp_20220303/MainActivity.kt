@@ -1,13 +1,17 @@
 package org.techtown.apipractice_okhttp_20220303
 
+import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import org.json.JSONObject
 import org.techtown.apipractice_okhttp_20220303.adapters.TopicAdapter
 import org.techtown.apipractice_okhttp_20220303.databinding.ActivityMainBinding
 import org.techtown.apipractice_okhttp_20220303.datas.TopicData
+import org.techtown.apipractice_okhttp_20220303.utils.ContextUtil
 import org.techtown.apipractice_okhttp_20220303.utils.ServerUtil
 
 class MainActivity : BaseActivity() {
@@ -30,6 +34,28 @@ class MainActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.btnLogout.setOnClickListener {
+//            경고장 > 확인시 로그아웃
+
+            val alert = AlertDialog.Builder(mContext)
+                .setTitle("로그아웃")
+                .setMessage("정말 로그아웃 하시겠습니까?")
+                .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+
+//                    로그인 : 토큰 값 받아서 > 기기에 저장
+
+//                    로그아웃 : 토큰 값(폰에서) 삭제
+
+                    ContextUtil.setToken(mContext, "")
+
+                    val myIntent = Intent(mContext, SplashActivity::class.java)
+                    startActivity(myIntent)
+                    finish()
+
+                })
+                .setNegativeButton("취소", null)
+                .show()
+        }
     }
 
     override fun setValues() {
