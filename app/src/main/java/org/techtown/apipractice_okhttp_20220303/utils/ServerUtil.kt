@@ -263,6 +263,54 @@ class ServerUtil {
             })
         }
 
+        fun postRequestVote(context: Context, sideId : Int, handler: JsonResponseHandler?) {
+
+//            Request 제작 -> 실제 호출 -> 서버의 응답을, 화면에 전달
+
+//            제작1) 어느 주소(url) 로 접근할건지? => 서버 주소 + 기능 주소
+            val urlString = "${BASE_URL}topic_vote/"
+
+//            제작2) 파라미터 담아주기 => 어떤 이름표 / 어느 공간에
+            val formData = FormBody.Builder()
+                .add("side_id", sideId.toString())               // 서버에서 원하는 이름표, 담을데이터
+                .build()
+
+//            제작 3) 모든 Request 정보를 종합한 객체 생성. (어느 주소로 + 어느 메쏘드로(어떤 파라미터를) )
+            val request = Request.Builder()
+                .url(urlString)
+                .post(formData)
+                .header("X-Http-Token",ContextUtil.getToken(context))
+                .build()
+
+//            Log.d("서버", "${request.url}")
+
+//            종합한 Request 도 실제 호출을 해 줘야 API 호출이 실행 됨. (startActivity 같은 동작 필요)
+//            실제 호출 : 앱이 클라이언트로써 동작 > OkHttpClient 클래스
+
+            val client = OkHttpClient()
+//            OkHttpClient 객체를 이용 > 서버에 로그인 기능 호출
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+
+                    val bodyString =
+                        response.body!!.string()
+
+                    val jsonObj = JSONObject(bodyString)
+                    Log.d("서버응답", jsonObj.toString())
+
+                    handler?.onResponse(jsonObj)
+
+                }
+
+            })
+
+        }
+
     }
 
 }
