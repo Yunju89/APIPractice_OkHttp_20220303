@@ -79,6 +79,9 @@ class MainActivity : BaseActivity() {
 //                    완성된 TopicData 객체를 목록에 추가
                     mTopicList.add(topicData)
 
+
+
+
                 }
 //                리스트뷰에 내용물 새로고침 => UI에 내용물 변경 행위
                 runOnUiThread {

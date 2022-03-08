@@ -13,7 +13,8 @@ import org.techtown.apipractice_okhttp_20220303.utils.ServerUtil
 class SignUpActivity : BaseActivity() {
 
     lateinit var binding : ActivitySignUpBinding
-    var isDupOk = false
+    var isEmail = false
+    var isNickname = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +50,11 @@ class SignUpActivity : BaseActivity() {
                         when (code) {
                             200 -> {
                                 binding.txtNicknameCheckResult.text = "사용해도 좋은 닉네임입니다."
-                                isDupOk = true
+                                isNickname = true
                             }
                             else -> {
                                 binding.txtNicknameCheckResult.text = "다른 닉네임으로 다시 검사해주세요."
-                                isDupOk = false
+                                isNickname = false
                             }
                         }
                     }
@@ -83,11 +84,11 @@ class SignUpActivity : BaseActivity() {
                         when(code){
                             200 -> {
                                 binding.txtEmailCheckResult.text = "사용해도 좋은 이메일입니다."
-                                isDupOk = true
+                                isEmail = true
                             }
                             else -> {
                                 binding.txtEmailCheckResult.text = "다른 이메일로 다시 검사해주세요."
-                                isDupOk = false
+                                isEmail = false
                             }
                         }
                     }
@@ -99,11 +100,13 @@ class SignUpActivity : BaseActivity() {
 
 //            [도전과제]만약 이메일 / 닉네임 중복검사 통과하지 못한 상태라면,
 //            토스트로 "이메일 중복 검사를 통과해야 합니다." 등의 문구만 출력, 가입 진행 X
-            if(isDupOk == false){
+
+            if(!isEmail || !isNickname){
                 runOnUiThread {
                     Toast.makeText(this, "이메일, 닉네임 중복검사를 통과해야 합니다.", Toast.LENGTH_SHORT).show()
 
                 }
+                return@setOnClickListener
             }
 
 
