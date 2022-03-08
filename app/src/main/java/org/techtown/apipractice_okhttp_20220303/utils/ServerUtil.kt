@@ -173,7 +173,7 @@ class ServerUtil {
 //        토큰 값 자체는 파라미터로 받아올 필요 없다 => ContextUtil 불러다 사용하자.
 //        메모장에 접근할 수 있게 , Context 변수 하나를 미리 받아두자.
 
-        fun getRequestMyInfo( context: Context, handler: JsonResponseHandler? ) {
+        fun getRequestMyInfo( context: Context, handler: JsonResponseHandler? ) {       // user_info
 
             val urlBuilder = "${BASE_URL}/user_info".toHttpUrlOrNull()!!.newBuilder()
                 .build()  // 쿼리 파라미터를 담을게 없다. 바로 build 로 마무리.
@@ -203,7 +203,7 @@ class ServerUtil {
             })
         }
 
-        fun getRequestMainInfo( context: Context, handler: JsonResponseHandler? ) {
+        fun getRequestMainInfo( context: Context, handler: JsonResponseHandler? ) {         //v2/main_info
 
             val urlBuilder = "${BASE_URL}//v2/main_info".toHttpUrlOrNull()!!.newBuilder()
                 .build()  // 쿼리 파라미터를 담을게 없다. 바로 build 로 마무리.
