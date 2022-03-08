@@ -1,6 +1,8 @@
 package org.techtown.apipractice_okhttp_20220303.datas
 
-class TopicData{
+import java.io.Serializable
+
+class TopicData : Serializable {
 
     var id = 0  // id는 Int 라고 명시
     var title = ""  // title String
