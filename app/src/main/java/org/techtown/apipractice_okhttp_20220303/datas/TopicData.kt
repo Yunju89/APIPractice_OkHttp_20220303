@@ -1,5 +1,6 @@
 package org.techtown.apipractice_okhttp_20220303.datas
 
+import android.view.WindowInsets
 import org.json.JSONObject
 import java.io.Serializable
 
@@ -9,6 +10,9 @@ class TopicData : Serializable {
     var title = ""  // title String
     var imageUrl = ""  // 서버 : img_url, 앱 imageUrl 변수명 다른 경우
     var replyCount = 0
+
+//    하나의 토론 주제 : 여러개의 (목록) 선택 진영
+    val sideList = ArrayList<SideData>()
 
 
 
@@ -28,6 +32,7 @@ class TopicData : Serializable {
             topicData.imageUrl = jsonObj.getString("img_url")
             topicData.replyCount = jsonObj.getInt("reply_count")
 
+
 //            sides 라는 JSONArray 가 들어있음.
 //             => topicData  하위 정보로, 선택 진영 목록으로 저장.
 //             => SJONArray > ArrayList
@@ -40,6 +45,10 @@ class TopicData : Serializable {
                 val sideObj = sidesArr.getJSONObject(i)
 
 //                sideObj 도, sideData 로 (선택진영) 변환
+                val sideData = SideData.getSideDataFromJson(sideObj)
+
+//                topicData 변수의 하위목록으로 등록
+                topicData.sideList.add(sideData)
 
 
             }

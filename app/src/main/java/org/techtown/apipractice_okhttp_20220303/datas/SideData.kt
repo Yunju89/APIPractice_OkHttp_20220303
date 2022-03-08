@@ -11,7 +11,7 @@ class SideData {
     var voteCount = 0
 
 
-    constructor(){
+    companion object{
 
         fun getSideDataFromJson(jsonObject: JSONObject) : SideData {
 
