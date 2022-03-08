@@ -235,7 +235,7 @@ class ServerUtil {
 
         fun getRequestTopicDetail( context: Context, topicId : Int, handler: JsonResponseHandler? ) {         //v2/main_info
 
-            val urlBuilder = "${BASE_URL}/topic${topicId}".toHttpUrlOrNull()!!.newBuilder() // 주소 .addPathSegment(topicId.toString()) 으로도가능
+            val urlBuilder = "${BASE_URL}/topic/${topicId}".toHttpUrlOrNull()!!.newBuilder() // 주소 .addPathSegment(topicId.toString()) 으로도가능
                 .build()  // 쿼리 파라미터를 담을게 없다. 바로 build 로 마무리.
 
             val urlString = urlBuilder.toString()

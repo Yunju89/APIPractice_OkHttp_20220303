@@ -1,6 +1,7 @@
 package org.techtown.apipractice_okhttp_20220303
 
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import org.json.JSONObject
@@ -20,6 +21,8 @@ class ViewTopicDetailActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_view_topic_detail)
 
         mTopicData = intent.getSerializableExtra("topic") as TopicData
+        Log.d("토픽데이터", mTopicData.id.toString())
+
         setupEvents()
         setValues()
 
@@ -47,6 +50,12 @@ class ViewTopicDetailActivity : BaseActivity() {
 //        1번진영 제목, 2번진영 제목
         binding.txtSide1.text = mTopicData.sideList[0].title
         binding.txtSide2.text = mTopicData.sideList[1].title
+
+//        1번진영 득표수, 2번진영 득표수
+        binding.txtVoteCount1.text = "${mTopicData.sideList[0].voteCount}표"
+        binding.txtVoteCount2.text = "${mTopicData.sideList[1].voteCount}표"
+
+
 
     }
 

@@ -50,14 +50,9 @@ class TopicData : Serializable {
 //                topicData 변수의 하위목록으로 등록
                 topicData.sideList.add(sideData)
 
-
             }
-
-
 //            완성된 TopicData 리턴
-
             return topicData
-
 
         }
 

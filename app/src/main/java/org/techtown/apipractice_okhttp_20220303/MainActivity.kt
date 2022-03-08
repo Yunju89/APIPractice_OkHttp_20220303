@@ -42,7 +42,6 @@ class MainActivity : BaseActivity() {
             myIntent.putExtra("topic", clickedTopic)
             startActivity(myIntent)
 
-
         }
 
         binding.btnLogout.setOnClickListener {
@@ -111,8 +110,6 @@ class MainActivity : BaseActivity() {
 
 //                    완성된 TopicData 객체를 목록에 추가
                     mTopicList.add(topicData)
-
-
 
 
                 }
