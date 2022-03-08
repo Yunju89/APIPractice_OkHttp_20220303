@@ -34,6 +34,14 @@ class MainActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.topicListView.setOnItemClickListener { parent, view, position, id ->
+
+            val clickedTopic = mTopicList[position]
+
+
+
+        }
+
         binding.btnLogout.setOnClickListener {
 //            경고장 > 확인시 로그아웃
 
@@ -46,9 +54,9 @@ class MainActivity : BaseActivity() {
 
 //                    로그아웃 : 토큰 값(폰에서) 삭제
 
-                    ContextUtil.setToken(mContext, "")
+                    ContextUtil.setToken(mContext, "")      // 토큰 기본값으로 재 셋팅,
 
-                    val myIntent = Intent(mContext, SplashActivity::class.java)
+                    val myIntent = Intent(mContext, SplashActivity::class.java)       //이후 화면변경
                     startActivity(myIntent)
                     finish()
 
