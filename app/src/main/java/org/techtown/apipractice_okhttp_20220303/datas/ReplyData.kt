@@ -33,6 +33,7 @@ class ReplyData(
             replyData.content = jsonObj.getString("content")
             replyData.writer = UserData.getUserDataFromJson( jsonObj.getJSONObject("user") )
 
+
             replyData.selectSide = SideData.getSideDataFromJson(jsonObj.getJSONObject("selected_side"))
 
 //            Calendar 로 되어있는 작성 일시 시간을, 서버가 알려주는 댓글 작성 일시로 맞춰줘야 함.
