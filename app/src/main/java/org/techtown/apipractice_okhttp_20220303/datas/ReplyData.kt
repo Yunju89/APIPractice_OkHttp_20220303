@@ -32,6 +32,20 @@ class ReplyData(
 //    작성 일시의 일시값을 그대로 복사 (원래값 : 현재일시)
         localCal.time = this.createdAt.time
 
+//    localCal 의 값을, 내 폰 설정에 맞게 시간을 더하자.
+//    ex. 한국 : +9를 더해야 함
+
+//        Calendar 객체 기능으로, 시간대 정보를 추출.
+
+        val localTimeZone = localCal.timeZone
+
+//    시간대가 GMT 와의 시차가 얼마나 나는지? (rawOffset - 몇초 차이까지)
+
+        val diffHour = localTimeZone.rawOffset / 60 / 60 /1000   // ms=>시간으로 변경
+
+//    구해진 시차를, 기존 시간에서 시간값으로 더해주기.
+        localCal.add(Calendar.HOUR,diffHour)
+
         return sdf.format(localCal.time)
 
     }
