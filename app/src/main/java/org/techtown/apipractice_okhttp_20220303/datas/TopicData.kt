@@ -15,7 +15,7 @@ class TopicData : Serializable {
     val sideList = ArrayList<SideData>()
 
 //    내가 투표해둔 진영
-    var mySelectedSide : SideData? = null
+    var mySelectedSide : SideData? = null   //null 로 생성.
 
 
 
