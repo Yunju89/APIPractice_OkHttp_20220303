@@ -1,5 +1,6 @@
 package org.techtown.apipractice_okhttp_20220303
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -82,6 +83,25 @@ class ViewTopicDetailActivity : BaseActivity() {
 
             })
 
+        }
+
+        binding.btnPostReply.setOnClickListener {
+
+//            투표를 하지 않은 상태라면, 댓글 작성도 불가.
+
+            if(mTopicData.mySelectedSide == null){
+
+                Toast.makeText(mContext, "의견을 개진할 진영을 선택하셔야 합니다.", Toast.LENGTH_SHORT).show()
+
+//                클릭 이벤트 자체를 강제 종료. (Intent 실행을 막자)
+                return@setOnClickListener
+            }
+
+            val myIntent = Intent(mContext, EditReplyActivity::class.java)
+
+            myIntent.putExtra("topic", mTopicData)
+
+            startActivity(myIntent)
         }
 
     }
