@@ -21,6 +21,20 @@ class ReplyData(
 //    보조 생성자 추가 연습 : 파라미터 X
     constructor() : this( 0, "내용없음")
 
+//    각 댓글이 자신의 작성일시를, 핸드폰 시간에 맞게 보정 + 가공된 문구로 내보내기
+    fun getFormattedCreatedAt() : String{
+
+//    가공 양식 지정
+        val sdf = SimpleDateFormat("M월 d일 a h시 m분")
+
+//    시차 보정에 사용할 Calendar 변수 (원래 있는 createdAt 두고 별도로 추가) (내 지역 local 에 맞게)
+        val localCal = Calendar.getInstance()
+//    작성 일시의 일시값을 그대로 복사 (원래값 : 현재일시)
+        localCal.time = this.createdAt.time
+
+        return sdf.format(localCal.time)
+
+    }
 
     companion object{
 
