@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ReplyData(
-    var id : Int,
+    var id: Int,
     var content: String,
 ) {
 
@@ -13,46 +13,80 @@ class ReplyData(
 
     var selectSide = SideData()     // 모든 댓글에는 선택한 진영이 있다. null 가능성 X
 
-//    작성 일시를 담아둘 변수
+    //    작성 일시를 담아둘 변수
 //    일 / 시 데이터를 변경 => 내부의 숫자만 변경. 변수에 새 객체 대입 x => val로 써도 됨
     val createdAt = Calendar.getInstance()
 
-    
-//    보조 생성자 추가 연습 : 파라미터 X
-    constructor() : this( 0, "내용없음")
 
-//    각 댓글이 자신의 작성일시를, 핸드폰 시간에 맞게 보정 + 가공된 문구로 내보내기
-    fun getFormattedCreatedAt() : String{
+    //    보조 생성자 추가 연습 : 파라미터 X
+    constructor() : this(0, "내용없음")
 
-//    가공 양식 지정
+    //    각 댓글이 자신의 작성일시를, 핸드폰 시간에 맞게 보정 + 가공된 문구로 내보내기
+    fun getFormattedCreatedAt(): String {
+
+//        가공 양식 지정
         val sdf = SimpleDateFormat("M월 d일 a h시 m분")
 
-//    시차 보정에 사용할 Calendar 변수 (원래 있는 createdAt 두고 별도로 추가) (내 지역 local 에 맞게)
+//        시차 보정에 사용할 Calendar 변수 (원래 있는 createdAt 두고 별도로 추가) (내 지역 local 에 맞게)
         val localCal = Calendar.getInstance()
-//    작성 일시의 일시값을 그대로 복사 (원래값 : 현재일시)
+//        작성 일시의 일시값을 그대로 복사 (원래값 : 현재일시)
         localCal.time = this.createdAt.time
 
-//    localCal 의 값을, 내 폰 설정에 맞게 시간을 더하자.
-//    ex. 한국 : +9를 더해야 함
+//        localCal 의 값을, 내 폰 설정에 맞게 시간을 더하자.
+//        ex. 한국 : +9를 더해야 함
 
 //        Calendar 객체 기능으로, 시간대 정보를 추출.
-
         val localTimeZone = localCal.timeZone
 
-//    시간대가 GMT 와의 시차가 얼마나 나는지? (rawOffset - 몇초 차이까지)
+//        시간대가 GMT 와의 시차가 얼마나 나는지? (rawOffset - 몇초 차이까지)
+        val diffHour = localTimeZone.rawOffset / 60 / 60 / 1000   // ms=>시간으로 변경
 
-        val diffHour = localTimeZone.rawOffset / 60 / 60 /1000   // ms=>시간으로 변경
+//        구해진 시차를, 기존 시간에서 시간값으로 더해주기.
+        localCal.add(Calendar.HOUR, diffHour)
 
-//    구해진 시차를, 기존 시간에서 시간값으로 더해주기.
-        localCal.add(Calendar.HOUR,diffHour)
+//        현재 시간과의 차이를 구해서, 차이값에 따라 다른 양식으로 가공.
+//        ex. 2분 전 작성 => "2분 전"
+//        ex. 5일 전 작성 => "3월 10일 오전 5시 6분"
 
-        return sdf.format(localCal.time)
+        val now = Calendar.getInstance() // 현재 시간 표현 변수 (핸드폰 시간대가 적용되어 있음)
+
+        val timeAgo = now.timeInMillis - localCal.timeInMillis  // 현재시간 - 작성일시 겨과. 몇 ms 차이나는가?
+
+//        5초 이내 => "방금 전"
+        if(timeAgo < 5 * 1000) {
+            return "방금 전"
+        }
+//        1분 이내 => "?초 전"
+//        timeAgo => ms 단위로 계산. 초단위로 변환
+        else if (timeAgo < 60 * 1000){
+            val diffSecond = timeAgo / 1000
+            return "${diffSecond}초 전"
+        }
+//        1시간 이내 => "?분 전"
+        else if (timeAgo < 60 * 60 * 1000){
+            val diffMinute = timeAgo / 1000 / 60
+            return "${diffMinute}분 전"
+        }
+//        24시간 이내 : ?시간 전
+        else if (timeAgo < 24 * 60 * 60 * 1000){
+            val diffDay = timeAgo / 1000 / 60 / 60
+            return "${diffDay}시간 전"
+        }
+//        10일 이내 : ? 일전
+        else if (timeAgo < 10 * 24 * 60 * 60 * 1000) {
+            val diffTenDay = timeAgo / 1000 / 60 / 60 / 24
+            return "${diffTenDay}일 전"
+        }
+//        10일 이상 : sdf 로 가공해서 리턴
+        else {
+            return sdf.format((localCal.time))
+        }
 
     }
 
-    companion object{
+    companion object {
 
-        fun getReplyDataFromJson(jsonObj : JSONObject) : ReplyData {
+        fun getReplyDataFromJson(jsonObj: JSONObject): ReplyData {
 
             val replyData = ReplyData()
 
@@ -60,10 +94,11 @@ class ReplyData(
 
             replyData.id = jsonObj.getInt("id")
             replyData.content = jsonObj.getString("content")
-            replyData.writer = UserData.getUserDataFromJson( jsonObj.getJSONObject("user") )
+            replyData.writer = UserData.getUserDataFromJson(jsonObj.getJSONObject("user"))
 
 
-            replyData.selectSide = SideData.getSideDataFromJson(jsonObj.getJSONObject("selected_side"))
+            replyData.selectSide =
+                SideData.getSideDataFromJson(jsonObj.getJSONObject("selected_side"))
 
 //            Calendar 로 되어있는 작성 일시 시간을, 서버가 알려주는 댓글 작성 일시로 맞춰줘야 함.
 
@@ -83,11 +118,11 @@ class ReplyData(
             val createdAtStr = jsonObj.getString("created_at")
 
 //            createdAtStr 변수를 => Date 로 변경 (parse) => Calendar time 에 대입
-            replyData.createdAt.time = sdf.parse( createdAtStr )
+            replyData.createdAt.time = sdf.parse(createdAtStr)
 
 
 
-                return replyData
+            return replyData
 
         }
     }
