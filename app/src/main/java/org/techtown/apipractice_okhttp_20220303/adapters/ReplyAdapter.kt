@@ -53,7 +53,7 @@ class ReplyAdapter(
 //        양식4) 21년 3/5 (토) - 18:05
 
 
-        val sdf = SimpleDateFormat("M월 dd일 a h시 m분")
+        val sdf = SimpleDateFormat("yy년 M/d (E) - hh:mm")
 
 //        sdf.format( Date 객체 ) => 지정해둔 양식의 String 으로 가공
 //        createdAt : Calendar / format 파라미터 : Date => Calendar 내용물인 time 변수가 Date
