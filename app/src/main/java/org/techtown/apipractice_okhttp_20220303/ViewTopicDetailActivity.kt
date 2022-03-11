@@ -103,6 +103,7 @@ class ViewTopicDetailActivity : BaseActivity() {
             startActivity(myIntent)
         }
 
+
     }
 
     override fun setValues() {
@@ -110,8 +111,10 @@ class ViewTopicDetailActivity : BaseActivity() {
         mAdapter = ReplyAdapter(mContext, R.layout.reply_list_item, mReplyList)
         binding.replyListView.adapter = mAdapter
 
-        getTopicDetailFromServer()
         setTopicDataToUi()
+
+//        어차피 onResume 에서 서버 연결 예정
+//        getTopicDetailFromServer()
 
     }
 
@@ -178,6 +181,11 @@ class ViewTopicDetailActivity : BaseActivity() {
                         setTopicDataToUi()
                     }
 
+//                    3/11 추가 mReplyList 에 댓글 목록이 추가 된다
+//                    => 기존에 다른 댓글들이 들어있다면, 그 뒤에 이어서 추가 된다.
+//                    => 기존 댓글 목록을 전부 삭제하고 나서, 추가하자.
+                    mReplyList.clear()
+
 //                    topicObj 내부에는 replies 라는 댓글 목록 JSONArray 도 들어있다.
 //                    mReplyList 에 넣어주자.
 
@@ -194,9 +202,17 @@ class ViewTopicDetailActivity : BaseActivity() {
                     runOnUiThread {
                         mAdapter.notifyDataSetChanged()
                     }
+
                 }
 
             })
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        getTopicDetailFromServer()
+
     }
 
 }
