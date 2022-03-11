@@ -36,9 +36,16 @@ class ReplyAdapter(
         val txtReplyContent = row.findViewById<TextView>(R.id.txtReplyContent)
         val txtCreatedAt = row.findViewById<TextView>(R.id.txtCreatedAt)
 
+        val txtReReplyCount = row.findViewById<TextView>(R.id.txtReReplyCount)
+        val txtLikeCount = row.findViewById<TextView>(R.id.txtLikeCount)
+        val txtHateCount = row.findViewById<TextView>(R.id.txtHateCount)
+
         txtReplyContent.text = data.content
         txtWriterNickname.text = data.writer.nickname
         txtSelectedSide.text = "[${data.selectSide.title}]"
+
+
+
 
 //        임시 - 작성일자만 "2022-03-10" 형태로 표현. => 연/ 월/ 일 데이터로 가공
 //        월은 1 작게 나옴. +1로 보정
@@ -56,6 +63,10 @@ class ReplyAdapter(
 //        sdf.format( Date 객체 ) => 지정해둔 양식의 String 으로 가공
 //        createdAt : Calendar / format 파라미터 : Date => Calendar 내용물인 time 변수가 Date
         txtCreatedAt.text = data.getFormattedCreatedAt()
+
+        txtReReplyCount.text = "답글${data.reReplyCount}"
+        txtLikeCount.text = "좋아요${data.likeCount}"
+        txtHateCount.text = "싫어요${data.hateCount}"
 
         return row
 
