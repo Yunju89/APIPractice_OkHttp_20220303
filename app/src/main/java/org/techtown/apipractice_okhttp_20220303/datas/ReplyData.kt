@@ -127,7 +127,7 @@ class ReplyData(
             replyData.createdAt.time = sdf.parse(createdAtStr)
 
             replyData.reReplyCount = jsonObj.getInt("reply_count")
-            replyData.likeCount = jsonObj.getInt("reply_count")
+            replyData.likeCount = jsonObj.getInt("like_count")
             replyData.hateCount = jsonObj.getInt("dislike_count")
 
 
