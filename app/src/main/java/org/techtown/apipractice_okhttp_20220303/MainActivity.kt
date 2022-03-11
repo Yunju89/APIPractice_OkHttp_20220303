@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -70,6 +71,9 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+//        액션바의 백버튼(BaseActivity 물려줌) 숨김처리
+        btnBack.visibility = View.GONE
 
 //        메인 화면 정보 가져오기 => API 호출 / 응답 처리
 //        코드상으로는 먼저 실행시키지만, 완료는 어댑터 연결보다 늦을 수도 있다.
