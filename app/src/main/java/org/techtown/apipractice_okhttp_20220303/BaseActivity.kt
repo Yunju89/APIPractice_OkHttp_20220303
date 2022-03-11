@@ -1,6 +1,8 @@
 package org.techtown.apipractice_okhttp_20220303
 
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 
 // 다른 모든 화면이 공통적으로 가질 기능 / 멤버변수를 모아두는 (부모) 클래스
 
@@ -21,5 +23,21 @@ abstract class BaseActivity : AppCompatActivity() {
     abstract fun setupEvents()
 
     abstract fun setValues()
+
+//    실제 구현 내용을 같이 물려주는 함수. (일반 함수)
+//    액션바 설정 기능
+
+    fun setCustomActionBar(){
+
+//        임시 테스트 > 실제적용
+        val defaultActionBar = supportActionBar!!
+        defaultActionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+
+        defaultActionBar.setCustomView(R.layout.my_custom_action_bar)
+
+        val toolbar = defaultActionBar.customView.parent as Toolbar
+        toolbar.setContentInsetsAbsolute(0,0)
+
+    }
 
 }
