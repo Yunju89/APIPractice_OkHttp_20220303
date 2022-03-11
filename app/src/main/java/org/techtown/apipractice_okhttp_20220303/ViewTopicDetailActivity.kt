@@ -94,7 +94,6 @@ class ViewTopicDetailActivity : BaseActivity() {
                 Toast.makeText(mContext, "의견을 개진할 진영을 선택하셔야 합니다.", Toast.LENGTH_SHORT).show()
 
 //                클릭 이벤트 자체를 강제 종료. (Intent 실행을 막자)
-                return@setOnClickListener
             }
 
             val myIntent = Intent(mContext, EditReplyActivity::class.java)
